@@ -11,6 +11,7 @@ import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
 import org.tasks.myshop.dto.ItemDto;
+import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.service.MyshopService;
 
 import java.io.IOException;
@@ -55,22 +56,21 @@ public class MyshopServiceImpl implements MyshopService {
 
     @Override
     @Transactional
-    public void loadItemsFromCsv(MultipartFile file, MultipartFile[] images) throws IOException, CsvException {
-        List<String[]> records;
-
+    public void loadItemsFromCsv(MultipartFile file, MultipartFile[] images) throws LoadItemException {
         try {
+            List<String[]> records;
             InputStreamReader reader = new InputStreamReader(file.getInputStream());
             CSVReader csvReader = new CSVReader(reader);
             records = csvReader.readAll();
             if (!records.isEmpty()) {
                 records.remove(0); // удаляем заголовок csv-файла
             }
-        }catch (IOException e) {
-            throw e;  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        }
 
-        List<ItemEntity> items = saveItems(records);
-        saveImages(images, items, records);
+            List<ItemEntity> items = saveItems(records);
+            saveImages(images, items, records);
+        }catch (Exception e) {
+            throw new LoadItemException(e.getMessage());
+        }
     }
 
     private List<ItemEntity> saveItems(List<String[]> records) {
