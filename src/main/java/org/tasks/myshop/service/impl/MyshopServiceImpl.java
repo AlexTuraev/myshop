@@ -3,10 +3,12 @@ package org.tasks.myshop.service.impl;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.tasks.myshop.dao.model.ItemEntity;
 import org.tasks.myshop.dao.model.ItemPicsEntity;
+import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
 import org.tasks.myshop.dto.ItemDto;
 import org.tasks.myshop.service.MyshopService;
@@ -27,9 +29,11 @@ public class MyshopServiceImpl implements MyshopService {
     private final int DEFAULT_PAGE_NUMBER = 0;
 
     private final ItemRespository itemRespository;
+    private final ItemPicsRepository itemPicsRepository;
 
-    public MyshopServiceImpl(ItemRespository itemRespository) {
+    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository) {
         this.itemRespository = itemRespository;
+        this.itemPicsRepository = itemPicsRepository;
     }
 
     @Override
@@ -50,6 +54,7 @@ public class MyshopServiceImpl implements MyshopService {
     }
 
     @Override
+    @Transactional
     public void loadItemsFromCsv(MultipartFile file, MultipartFile[] images) throws IOException, CsvException {
         List<String[]> records;
 
@@ -65,8 +70,7 @@ public class MyshopServiceImpl implements MyshopService {
         }
 
         List<ItemEntity> items = saveItems(records);
-
-
+        saveImages(images, items, records);
     }
 
     private List<ItemEntity> saveItems(List<String[]> records) {
@@ -84,20 +88,31 @@ public class MyshopServiceImpl implements MyshopService {
         return itemRespository.saveAll(items);
     }
 
-  /*  private void saveImages(MultipartFile[] images, List<Long> itemIds) {
-        Map<String, MultipartFile> imagesMap = new HashMap<>();
+    private void saveImages(MultipartFile[] images, List<ItemEntity> items, List<String[]> records) throws IOException {
+        if (items.size() != records.size()) {
+            throw new RuntimeException("Ошибка сохранения товаров");
+        }
 
+        Map<String, MultipartFile> imagesMap = new HashMap<>();
         for (MultipartFile image : images) {
             imagesMap.put(image.getOriginalFilename(), image);
         }
 
         List<ItemPicsEntity> itemPics = new ArrayList<>();
-        MultipartFile imageFile = imagesMap.get(strings[4]);
-        if (imageFile != null) {
-            ItemPicsEntity itemPicsEntity = new ItemPicsEntity();
-            itemPicsEntity.setImageType(imageFile.getContentType());
-            itemPicsEntity.setImage(imageFile.getBytes());
+        for (int i = 0; i < records.size(); i++) {
+            MultipartFile imageFile = imagesMap.get(records.get(i)[4]);
+            if (imageFile != null) {
+                ItemPicsEntity  itemPic = new ItemPicsEntity();
+
+                itemPic.setItemId(items.get(i).getId());
+                itemPic.setImageType(imageFile.getContentType());
+                itemPic.setImage(imageFile.getBytes());
+
+                itemPics.add(itemPic);
+            }
         }
-    }*/
+
+        itemPicsRepository.saveAll(itemPics);
+    }
 
 }
