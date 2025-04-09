@@ -21,6 +21,8 @@ create table if not exists users(
     login varchar(255)
     );
 
+insert into users (login) values('user1'), ('user2');
+
 -- корзина
 create table if not exists users_items(
     item_id bigint,
