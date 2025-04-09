@@ -1,6 +1,5 @@
 package org.tasks.myshop.dao.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +14,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Entity
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data
 @Table(name = "items")
 public class ItemEntity {
