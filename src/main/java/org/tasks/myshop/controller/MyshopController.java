@@ -51,7 +51,7 @@ public class MyshopController {
             @RequestPart("uploadcsvfile") MultipartFile file,
             @RequestPart("images") MultipartFile[] images) throws IOException, CsvException {
         myshopService.loadItemsFromCsv(file, images);
-        return "qqq";
+        return "load-success";
     }
 
     @ExceptionHandler(IOException.class)
