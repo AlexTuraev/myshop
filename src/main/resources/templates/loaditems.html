@@ -8,10 +8,12 @@
 </head>
 
 <body>
-    <form>
+    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
         <p>
             <label for="loadfile">Выбрать файл: </label>
-            <input type="file" id="loadfile" style="width:300px;" accept=".csv" name="uploadfile"><br>
+            <input type="file" id="loadfile" style="width:300px;" accept=".csv" name="uploadcsvfile"><br>
+            <label for="images">Выбрать картинки: </label>
+            <input type="file" multiple="multiple" id="images" style="width:300px;" accept="image/*" name="images"><br>
             <button type="submit">Загрузить товары</button>
         </p>
     </form>

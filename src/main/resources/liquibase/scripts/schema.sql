@@ -10,9 +10,16 @@ create table if not exists items(
     title varchar(255) not null,
     description text,
     price numeric(10, 2),
-    count int,
+    quantity int
+    );
+
+-- картинки товаров
+create table if not exists item_pics(
+    item_id bigint,
     image_type varchar(50),
-    image bytea
+    image bytea,
+
+    foreign key (item_id) references items(id) on delete cascade
     );
 
 -- пользователи
