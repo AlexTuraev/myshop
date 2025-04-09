@@ -9,11 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data
 @Table(name = "items")

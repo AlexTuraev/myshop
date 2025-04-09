@@ -1,7 +1,6 @@
 package org.tasks.myshop.service.impl;
 
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +13,10 @@ import org.tasks.myshop.dao.repository.ItemRespository;
 import org.tasks.myshop.dto.ItemDto;
 import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.service.MyshopService;
+import org.tasks.myshop.service.mapper.ItemMapper;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +31,7 @@ public class MyshopServiceImpl implements MyshopService {
 
     private final ItemRespository itemRespository;
     private final ItemPicsRepository itemPicsRepository;
+//    private final ItemMapper itemMapper;
 
     public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository) {
         this.itemRespository = itemRespository;
@@ -41,8 +40,10 @@ public class MyshopServiceImpl implements MyshopService {
 
     @Override
     public List<ItemDto> getItems(String search, Integer pageSize, Integer pageNumber) {
-//        Pageable pageable = new PageRequest(pageNumber, DEFAULT_PAGE_NUMBER);
-        return List.of();
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize);
+        var items = itemRespository.findByTitleStartingWith(search, pageable);
+//        return itemMapper.toDto(items);
+        return null;
     }
 
     @Override
