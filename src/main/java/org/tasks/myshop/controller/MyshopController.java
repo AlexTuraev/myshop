@@ -37,6 +37,7 @@ public class MyshopController {
             @RequestParam(name = "pageSize", required = false) Integer pageSize,
             @RequestParam(name = "pageNumber", required = false) Integer pageNumber
     ) {
+        myshopService.getItems(search, pageSize, pageNumber);
         return "";
     }
 

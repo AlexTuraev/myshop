@@ -2,6 +2,7 @@ package org.tasks.myshop.service.impl;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.tasks.myshop.dto.ItemDto;
 import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.service.MyshopService;
 
+import java.awt.print.Pageable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -39,6 +41,7 @@ public class MyshopServiceImpl implements MyshopService {
 
     @Override
     public List<ItemDto> getItems(String search, Integer pageSize, Integer pageNumber) {
+//        Pageable pageable = new PageRequest(pageNumber, DEFAULT_PAGE_NUMBER);
         return List.of();
     }
 

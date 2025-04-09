@@ -12,6 +12,7 @@ import lombok.Data;
 public class ItemPicsEntity {
 
     @Id
+    @Column(name = "item_id")
     private Long itemId;
 
     @Column(name = "image_type")

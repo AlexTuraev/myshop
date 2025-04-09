@@ -1,0 +1,7 @@
+#postgres
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/myshop
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
