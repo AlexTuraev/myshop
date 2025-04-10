@@ -26,6 +26,10 @@ public class CartServiceImpl implements CartService {
         CartEntity cart = getCartByItemIdAndCartId(itemId, cartId)
                 .orElse(new CartEntity(cartId, itemId, 0, null));
 
+        if (cart.getCountItem() == 0 && deltaCount < 0) {
+            throw new RuntimeException("попытка уменьшить отсутствующее значение");
+        }
+
         cart.setCountItem(cart.getCountItem() + deltaCount);
         if (cart.getCountItem() > 0) {
             return cartRepository.save(cart);
