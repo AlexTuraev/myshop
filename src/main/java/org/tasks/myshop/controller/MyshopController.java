@@ -1,9 +1,9 @@
 package org.tasks.myshop.controller;
 
-import com.opencsv.exceptions.CsvException;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.tasks.myshop.dto.ItemDto;
@@ -73,8 +72,8 @@ public class MyshopController {
     }
 
     @PostMapping("/item/{id}/maincart")
-    public String changeItemCartFromMain(Model model, @PathVariable("id") Long id, @RequestParam("action") int delta) {
-        model = myshopService.changeItemCart(model, id, delta);
+    public String changeItemCartFromMain(Model model, @PathVariable("id") Long id, @RequestParam("action") @Min(-1) @Max(1) int delta) {
+        model = myshopService.changeItemCart(model, id, 1L, delta);
         return null;
     }
 

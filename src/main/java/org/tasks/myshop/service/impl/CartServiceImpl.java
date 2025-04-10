@@ -10,7 +10,6 @@ import java.util.Optional;
 @Service
 public class CartServiceImpl implements CartService {
 
-    private final Long CART_ID = 1L;
     private final CartRepository cartRepository;
 
     public CartServiceImpl(CartRepository cartRepository) {
@@ -18,8 +17,26 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Optional<CartEntity> getCartByItemId(Long itemId, Long cartId) {
-        return cartRepository.findByItemId(itemId);
+    public Optional<CartEntity> getCartByItemIdAndCartId(Long itemId, Long cartId) {
+        return cartRepository.findByItemIdAndCartId(itemId, cartId);
+    }
+
+    @Override
+    public CartEntity updateCountItem(Long itemId, Long cartId, int deltaCount) {
+        CartEntity cart = getCartByItemIdAndCartId(itemId, cartId)
+                .orElse(new CartEntity(cartId, itemId, 0, null));
+
+        cart.setCountItem(cart.getCountItem() + deltaCount);
+        if (cart.getCountItem() > 0) {
+            return cartRepository.save(cart);
+        }
+        else /*if (cart.getCountItem() == 0) */{
+            cartRepository.deleteByItemIdAndCartId(itemId, cartId);
+            return null;
+        }
+        /*else {
+            throw new RuntimeException("CartEntity.getCountItem() стало < 0, такого быть не может, проверить задание delta");
+        }*/
     }
 
 }

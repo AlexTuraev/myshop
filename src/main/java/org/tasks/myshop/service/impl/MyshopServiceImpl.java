@@ -17,6 +17,7 @@ import org.tasks.myshop.dto.PagingDto;
 import org.tasks.myshop.enums.SortEnum;
 import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.exception.SortException;
+import org.tasks.myshop.service.CartService;
 import org.tasks.myshop.service.MyshopService;
 import org.tasks.myshop.service.mapper.ItemMapper;
 
@@ -38,11 +39,13 @@ public class MyshopServiceImpl implements MyshopService {
     private final ItemRespository itemRespository;
     private final ItemPicsRepository itemPicsRepository;
     private final ItemMapper  itemMapper;
+    private final CartService  cartService;
 
-    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper) {
+    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper, CartService cartService) {
         this.itemRespository = itemRespository;
         this.itemPicsRepository = itemPicsRepository;
         this.itemMapper = itemMapper;
+        this.cartService = cartService;
     }
 
     @Override
@@ -94,8 +97,10 @@ public class MyshopServiceImpl implements MyshopService {
     }
 
     @Override
-    public Model changeItemCart(Model model, Long id, int delta) {
-
+    @Transactional
+    public Model changeItemCart(Model model, Long itemId, Long cartId, int delta) {
+        var res = cartService.updateCountItem(itemId, cartId, delta);
+        // ToDo
         return null;
     }
 
