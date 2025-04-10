@@ -27,7 +27,7 @@ public class CartServiceImpl implements CartService {
                 .orElse(new CartEntity(cartId, itemId, 0, null));
 
         if (cart.getCountItem() == 0 && deltaCount < 0) {
-            throw new RuntimeException("попытка уменьшить отсутствующее значение");
+            throw new RuntimeException("Попытка уменьшить отсутствующее значение");
         }
 
         cart.setCountItem(cart.getCountItem() + deltaCount);
@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
         }
         else {
             cartRepository.deleteByItemIdAndCartId(itemId, cartId);
-            return null;
+            return cart;
         }
     }
 
