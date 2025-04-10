@@ -14,6 +14,7 @@ import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
 import org.tasks.myshop.dto.ItemDto;
+import org.tasks.myshop.dto.PagingDto;
 import org.tasks.myshop.enums.SortEnum;
 import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.exception.SortException;
@@ -48,12 +49,10 @@ public class MyshopServiceImpl implements MyshopService {
     }
 
     @Override
-    public List<ItemDto> getItems(String search, Integer pageSize, Integer pageNumber, SortEnum sortType) {
+    public Page<ItemEntity> getItems(String search, Integer pageSize, Integer pageNumber, SortEnum sortType) {
         Sort sort = Sort.by(Sort.Direction.ASC, sortType.getSortField());
         PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
-        Page<ItemEntity> pageItems = itemRespository.findByTitle(search, pageable);
-
-        return itemMapper.toDto(pageItems.getContent());
+        return itemRespository.findByTitle(search, pageable);
     }
 
     @Override
@@ -62,12 +61,13 @@ public class MyshopServiceImpl implements MyshopService {
         int pageNo = pageNumber == null ? DEFAULT_PAGE_NUMBER : pageNumber - 1;
         SortEnum sortEnum = (sort == null || sort.isEmpty()) ? DEFAULT_SORT : SortEnum.getByValue(sort);
 
-        List<ItemDto> items = getItems(search, pageLimit, pageNo, sortEnum);
+        Page<ItemEntity> pageItems = getItems(search, pageLimit, pageNo, sortEnum);
+        List<ItemDto> items = itemMapper.toDto(pageItems.getContent());
 
         model.addAttribute("items", items);
         model.addAttribute("search", search);
         model.addAttribute("sort", sortEnum.getValue());
-//        model.addAttribute("paging", new PagingDto(pageLimit, pageNo+1, total));
+        model.addAttribute("paging", new PagingDto(pageLimit, pageNo+1, pageItems.getTotalPages()));
         return model;
     }
 
