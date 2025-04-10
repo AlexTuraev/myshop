@@ -9,17 +9,17 @@ public class PagingDto {
 
     private int pageSize;
     private int pageNumber;
-    private int countItems;
+    private int totalPages;
     private boolean hasNextPage;
     private boolean hasPreviousPage;
 
-    public PagingDto(int pageSize, int pageNumber, int countItems) {
+    public PagingDto(int pageSize, int pageNumber, int totalPages) {
         this.pageSize = pageSize;
         this.pageNumber = pageNumber;
-        this.countItems = countItems;
+        this.totalPages = totalPages;
 
         this.hasPreviousPage = pageNumber > 1;
-        this.hasNextPage = pageNumber*pageSize < countItems;
+        this.hasNextPage = pageNumber < totalPages;
     }
 
 }
