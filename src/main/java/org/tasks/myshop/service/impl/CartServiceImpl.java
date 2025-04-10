@@ -30,13 +30,10 @@ public class CartServiceImpl implements CartService {
         if (cart.getCountItem() > 0) {
             return cartRepository.save(cart);
         }
-        else /*if (cart.getCountItem() == 0) */{
+        else {
             cartRepository.deleteByItemIdAndCartId(itemId, cartId);
             return null;
         }
-        /*else {
-            throw new RuntimeException("CartEntity.getCountItem() стало < 0, такого быть не может, проверить задание delta");
-        }*/
     }
 
 }
