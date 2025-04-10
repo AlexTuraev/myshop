@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.tasks.myshop.dto.ItemDto;
 import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.exception.SortException;
 import org.tasks.myshop.service.MyshopService;
@@ -56,6 +58,13 @@ public class MyshopController {
             @RequestPart("images") MultipartFile[] images) throws LoadItemException {
         myshopService.loadItemsFromCsv(file, images);
         return "load-success";
+    }
+
+    @GetMapping("/item/{id}")
+    public String getItem(Model model, @PathVariable("id") Long id) {
+        ItemDto itemDto = myshopService.getItemById(id);
+        model.addAttribute("item", itemDto);
+        return "item";
     }
 
     @ExceptionHandler(LoadItemException.class)

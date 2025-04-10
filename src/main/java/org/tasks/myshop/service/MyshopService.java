@@ -17,4 +17,5 @@ public interface MyshopService {
     Model getItemsModel(Model model, String search, Integer pageSize, Integer pageNumber, String sort) throws SortException;
     void loadItemsFromCsv(MultipartFile file, MultipartFile[] images) throws LoadItemException;
 
+    ItemDto getItemById(Long id);
 }

@@ -87,6 +87,12 @@ public class MyshopServiceImpl implements MyshopService {
         }
     }
 
+    @Override
+    public ItemDto getItemById(Long id) {
+        return itemRespository.findById(id).map(entity -> itemMapper.toDto(entity))
+                .orElseThrow(()->new RuntimeException("Item not found"));
+    }
+
     private List<ItemEntity> saveItems(List<String[]> records) {
         List<ItemEntity> items = new ArrayList<>();
 
