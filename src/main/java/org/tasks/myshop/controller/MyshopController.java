@@ -40,7 +40,6 @@ public class MyshopController {
             @RequestParam(name = "pageNumber", required = false) Integer pageNumber
     ) throws SortException {
         model = myshopService.getItemsModel(model, search, pageSize, pageNumber, sort);
-//        model = myshopService.getItemsModel(model, "товар1", 5, 1, sort);
         return "main";
     }
 
