@@ -100,8 +100,20 @@ public class MyshopServiceImpl implements MyshopService {
     @Transactional
     public Model changeItemCart(Model model, Long itemId, Long cartId, int delta) {
         var res = cartService.updateCountItem(itemId, cartId, delta);
+        ItemEntity res1 = updateCountItem(itemId, -delta);
         // ToDo
         return null;
+    }
+
+    public ItemEntity updateCountItem(Long itemId, int deltaCount) {
+        return itemRespository
+                .findById(itemId)
+                .map(item -> {
+                    item.setQuantity(item.getQuantity() + deltaCount);
+                    return item;
+                })
+                .map(itemRespository::save)
+                .orElseThrow();
     }
 
     private List<ItemEntity> saveItems(List<String[]> records) {
