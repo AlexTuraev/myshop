@@ -67,6 +67,12 @@ public class MyshopController {
         return "item";
     }
 
+    @PostMapping("/item/{id}/cart")
+    public String changeItemCart(Model model, @PathVariable("id") Long id, @RequestParam("action") int delta) {
+        return "item";
+    }
+
+
     @ExceptionHandler(LoadItemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIOException(Model model, IOException ex) {
