@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
+import org.tasks.myshop.dao.model.CartEntity;
 import org.tasks.myshop.dao.model.ItemEntity;
 import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
@@ -99,10 +100,12 @@ public class MyshopServiceImpl implements MyshopService {
     @Override
     @Transactional
     public Model changeItemCart(Model model, Long itemId, Long cartId, int delta) {
-        var res = cartService.updateCountItem(itemId, cartId, delta);
-        ItemEntity res1 = updateCountItem(itemId, -delta);
+        CartEntity cart = cartService.updateCountItem(itemId, cartId, delta);
+        ItemEntity item = updateCountItem(itemId, -delta);
         // ToDo
-        return null;
+        model.addAttribute("item", itemMapper.toDto(item));
+        model.addAttribute("countItem", cart.getCountItem());
+        return model;
     }
 
     public ItemEntity updateCountItem(Long itemId, int deltaCount) {
