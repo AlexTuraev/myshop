@@ -18,4 +18,6 @@ public interface MyshopService {
     void loadItemsFromCsv(MultipartFile file, MultipartFile[] images) throws LoadItemException;
 
     ItemDto getItemById(Long id);
+
+    Model changeItemCart(Model model, Long id, int delta);
 }

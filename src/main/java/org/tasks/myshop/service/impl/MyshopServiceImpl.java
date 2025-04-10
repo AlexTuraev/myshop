@@ -93,6 +93,12 @@ public class MyshopServiceImpl implements MyshopService {
                 .orElseThrow(()->new RuntimeException("Item not found"));
     }
 
+    @Override
+    public Model changeItemCart(Model model, Long id, int delta) {
+
+        return null;
+    }
+
     private List<ItemEntity> saveItems(List<String[]> records) {
         List<ItemEntity> items = new ArrayList<>();
 

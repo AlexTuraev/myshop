@@ -74,6 +74,7 @@ public class MyshopController {
 
     @PostMapping("/item/{id}/maincart")
     public String changeItemCartFromMain(Model model, @PathVariable("id") Long id, @RequestParam("action") int delta) {
+        model = myshopService.changeItemCart(model, id, delta);
         return null;
     }
 

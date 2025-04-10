@@ -24,6 +24,7 @@ create table if not exists item_pics(
 
 -- корзина
 create table if not exists cart(
+    cart_id bigint,
     item_id bigint,
     count_item int,
 
