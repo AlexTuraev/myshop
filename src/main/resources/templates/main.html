@@ -5,6 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Витрина товаров</title>
+    <style>
+        ul, li{
+            list-style: none;
+        }
+        .products{
+        }
+        .products__ul-flex{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .products__item-block{
+            margin: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -63,54 +78,51 @@
                 </form>
             </td>
         </tr>
-        <!-- В each итерируемся по строке/списку со списками из N (например, трех) товаров -->
-<!--        <tr th:each="...">-->
-<!--            &lt;!&ndash; В each итерируемся товарам в строке/списке из N (например, трех) товаров &ndash;&gt;-->
-<!--            <td th:each="...">-->
-<!--                <table>-->
-<!--                    <tr>-->
-<!--                        <td>-->
-<!--                            &lt;!&ndash; В href ссылка на страницу с карточкой товара &ndash;&gt;-->
-<!--                            <a th:href="...">-->
-<!--                                &lt;!&ndash; В src ссылка изображение товара &ndash;&gt;-->
-<!--                                <img width="300" height="300" th:src="...">-->
-<!--                            </a>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <td>-->
-<!--                            &lt;!&ndash; В text название товара &ndash;&gt;-->
-<!--                            <b th:text="..."></b>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                       	    &lt;!&ndash; В text цена товара &ndash;&gt;-->
-<!--                            <b th:text="..."></b>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        &lt;!&ndash; В text описание товара &ndash;&gt;-->
-<!--                        <td th:text="..."></td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <td>-->
-<!--                            &lt;!&ndash;-->
-<!--                    		В action ссылка на изменение количества товара в корзине.-->
-<!--                    		Передается параметр запроса action=[minus|plus]-->
-<!--                    	    &ndash;&gt;-->
-<!--                            <form th:action="..." method="post">-->
-<!--                                <button name="action" value="minus">-</button>-->
-<!--                                &lt;!&ndash; В text количество товара в корзине &ndash;&gt;-->
-<!--                                <span th:text="..."></span>-->
-<!--                                <button name="action" value="plus">+</button>-->
-<!--                                &lt;!&ndash; В if true, если товар еще не был добавлен в корзину, false, если уже был &ndash;&gt;-->
-<!--                                <button name="action" value="plus" th:if="..." style="float:right;">В корзину</button>-->
-<!--                            </form>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--            </td>-->
-<!--        </tr>-->
     </table>
+
+    <section class="products">
+        <ul class="products__ul-flex">
+            <li th:each="item : ${items}">
+                <div class="products__item-block">
+                    <p>
+                        <a th:href="@{/}">
+                            <!-- В src ссылка изображение товара -->
+                            <div>
+                                <img width="300" height="300" th:src="...">
+                            </div>
+                        </a>
+                    </p>
+                    <p>
+                        <!-- В text название товара -->
+                        <b th:text="${item.title}"></b>
+                    </p>
+                    <p>
+                        <!-- В text цена товара -->
+                        <b th:text="${item.price}"></b>
+                    </p>
+                    <p>
+                        <!-- В text описание товара -->
+                        <td th:text="${item.description}"></td>
+                    </p>
+                </div>
+
+<!--                <div>-->
+<!--                        &lt;!&ndash;-->
+<!--                        В action ссылка на изменение количества товара в корзине.-->
+<!--                        Передается параметр запроса action=[minus|plus]-->
+<!--                        &ndash;&gt;-->
+<!--                        <form th:action="..." method="post">-->
+<!--                            <button name="action" value="minus">-</button>-->
+<!--                            &lt;!&ndash; В text количество товара в корзине &ndash;&gt;-->
+<!--                            <span th:text="..."></span>-->
+<!--                            <button name="action" value="plus">+</button>-->
+<!--                            &lt;!&ndash; В if true, если товар еще не был добавлен в корзину, false, если уже был &ndash;&gt;-->
+<!--                            <button name="action" value="plus" th:if="..." style="float:right;">В корзину</button>-->
+<!--                        </form>-->
+<!--                </div>-->
+            </li>
+        </ul>
+    </section>
 </body>
 
 </html>
