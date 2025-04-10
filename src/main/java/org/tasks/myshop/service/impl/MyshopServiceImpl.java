@@ -1,7 +1,10 @@
 package org.tasks.myshop.service.impl;
 
 import com.opencsv.CSVReader;
+import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -11,7 +14,9 @@ import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
 import org.tasks.myshop.dto.ItemDto;
+import org.tasks.myshop.enums.SortEnum;
 import org.tasks.myshop.exception.LoadItemException;
+import org.tasks.myshop.exception.SortException;
 import org.tasks.myshop.service.MyshopService;
 import org.tasks.myshop.service.mapper.ItemMapper;
 
@@ -23,11 +28,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.tasks.myshop.enums.SortEnum.ALPHA;
+
 @Service
 public class MyshopServiceImpl implements MyshopService {
 
-    private final int DEFAULT_PAGE_SIZE = 3;
+    private final int DEFAULT_PAGE_SIZE = 5;
     private final int DEFAULT_PAGE_NUMBER = 0;
+    private final SortEnum DEFAULT_SORT = SortEnum.NO;
 
     private final ItemRespository itemRespository;
     private final ItemPicsRepository itemPicsRepository;
@@ -40,20 +48,25 @@ public class MyshopServiceImpl implements MyshopService {
     }
 
     @Override
-    public List<ItemDto> getItems(String search, Integer pageSize, Integer pageNumber) {
-        PageRequest pageable = PageRequest.of(pageNumber, pageSize);
-        List<ItemEntity> items = itemRespository.findByTitleStartingWith(search, pageable);
-        return itemMapper.toDto(items);
+    public List<ItemDto> getItems(String search, Integer pageSize, Integer pageNumber, SortEnum sortType) {
+        Sort sort = Sort.by(Sort.Direction.ASC, sortType.getSortField());
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<ItemEntity> pageItems = itemRespository.findByTitle(search, pageable);
+
+        return itemMapper.toDto(pageItems.getContent());
     }
 
     @Override
-    public Model getItemsModel(Model model, String search, Integer pageSize, Integer pageNumber) {
+    public Model getItemsModel(Model model, String search, Integer pageSize, Integer pageNumber, String sort) throws SortException {
         int pageLimit = pageSize == null ? DEFAULT_PAGE_SIZE : pageSize;
         int pageNo = pageNumber == null ? DEFAULT_PAGE_NUMBER : pageNumber - 1;
+        SortEnum sortEnum = (sort == null || sort.isEmpty()) ? DEFAULT_SORT : SortEnum.getByValue(sort);
 
-        List<ItemDto> items = getItems(search, pageLimit, pageNo);
+        List<ItemDto> items = getItems(search, pageLimit, pageNo, sortEnum);
 
         model.addAttribute("items", items);
+        model.addAttribute("search", search);
+        model.addAttribute("sort", sortEnum.getValue());
 //        model.addAttribute("paging", new PagingDto(pageLimit, pageNo+1, total));
         return model;
     }

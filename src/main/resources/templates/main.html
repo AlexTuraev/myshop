@@ -30,86 +30,86 @@
                         <label for="sort">Сортировка: </label>
                         <!-- В selected true, если выбран соответствующий пункт -->
                         <select id="sort" name="sort" onchange="this.form.submit()">
-                            <option value="NO" th:selected="...">нет</option>
-                            <option value="ALPHA" th:selected="...">по алфавиту</option>
-                            <option value="PRICE" th:selected="...">по цене</option>
+                            <option value="NO" th:selected="${sort}==NO">нет</option>
+                            <option value="ALPHA" th:selected="${sort}==ALPHA">по алфавиту</option>
+                            <option value="PRICE" th:selected="${sort}==PRICE">по цене</option>
                         </select>
                     </p>
-                    <p>
-                        <label for="pageSize">Число товаров: </label>
-                        <!-- В selected true, если выбран соответствующий пункт -->
-                        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
-                            <option value="5" th:selected="${paging.pageSize==5}">5</option>
-                            <option value="10" th:selected="${paging.pageSize==10}">10</option>
-                            <option value="20" th:selected="${paging.pageSize==20}">20</option>
-                            <option value="50" th:selected="${paging.pageSize==50}">50</option>
-                            <option value="100" th:selected="${paging.pageSize==100}">100</option>
-                        </select>
-                    </p>
-                    <p>
-                    	<!-- 
-                    		В if true, если выбрана не первая страница.
-                    		В value номер предыдущей страницы.
-                    	-->
-                        <button th:if="..." name="pageNumber" th:value="...">&lt;</button>
-                        <!-- В text номер текущей страницы -->
-                        <span th:text="${'Страница: '+paging.pageNumber()}"></span>
-                        <!-- 
-                    		В if true, если выбрана не последняя страница.
-                    		В value номер следующей страницы.
-                    	-->
-                        <button th:if="..." name="pageNumber" th:value="...">&gt;</button>
-                    </p>
+<!--                    <p>-->
+<!--                        <label for="pageSize">Число товаров: </label>-->
+<!--                        &lt;!&ndash; В selected true, если выбран соответствующий пункт &ndash;&gt;-->
+<!--                        <select id="pageSize" name="pageSize" onchange="this.form.submit()">-->
+<!--                            <option value="5" th:selected="${paging.pageSize==5}">5</option>-->
+<!--                            <option value="10" th:selected="${paging.pageSize==10}">10</option>-->
+<!--                            <option value="20" th:selected="${paging.pageSize==20}">20</option>-->
+<!--                            <option value="50" th:selected="${paging.pageSize==50}">50</option>-->
+<!--                            <option value="100" th:selected="${paging.pageSize==100}">100</option>-->
+<!--                        </select>-->
+<!--                    </p>-->
+<!--                    <p>-->
+<!--                    	&lt;!&ndash;-->
+<!--                    		В if true, если выбрана не первая страница.-->
+<!--                    		В value номер предыдущей страницы.-->
+<!--                    	&ndash;&gt;-->
+<!--                        <button th:if="..." name="pageNumber" th:value="...">&lt;</button>-->
+<!--                        &lt;!&ndash; В text номер текущей страницы &ndash;&gt;-->
+<!--                        <span th:text="${'Страница: '+paging.pageNumber()}"></span>-->
+<!--                        &lt;!&ndash;-->
+<!--                    		В if true, если выбрана не последняя страница.-->
+<!--                    		В value номер следующей страницы.-->
+<!--                    	&ndash;&gt;-->
+<!--                        <button th:if="..." name="pageNumber" th:value="...">&gt;</button>-->
+<!--                    </p>-->
                 </form>
             </td>
         </tr>
         <!-- В each итерируемся по строке/списку со списками из N (например, трех) товаров -->
-        <tr th:each="...">
-            <!-- В each итерируемся товарам в строке/списке из N (например, трех) товаров -->
-            <td th:each="...">
-                <table>
-                    <tr>
-                        <td>
-                            <!-- В href ссылка на страницу с карточкой товара -->
-                            <a th:href="...">
-                                <!-- В src ссылка изображение товара -->
-                                <img width="300" height="300" th:src="...">
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <!-- В text название товара -->
-                            <b th:text="..."></b>
-                        </td>
-                        <td>
-                       	    <!-- В text цена товара -->
-                            <b th:text="..."></b>
-                        </td>
-                    </tr>
-                    <tr>
-                        <!-- В text описание товара -->
-                        <td th:text="..."></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <!-- 
-                    		В action ссылка на изменение количества товара в корзине.
-                    		Передается параметр запроса action=[minus|plus]
-                    	    -->
-                            <form th:action="..." method="post">
-                                <button name="action" value="minus">-</button>
-                                <!-- В text количество товара в корзине -->
-                                <span th:text="..."></span>
-                                <button name="action" value="plus">+</button>
-                                <!-- В if true, если товар еще не был добавлен в корзину, false, если уже был -->
-                                <button name="action" value="plus" th:if="..." style="float:right;">В корзину</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+<!--        <tr th:each="...">-->
+<!--            &lt;!&ndash; В each итерируемся товарам в строке/списке из N (например, трех) товаров &ndash;&gt;-->
+<!--            <td th:each="...">-->
+<!--                <table>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            &lt;!&ndash; В href ссылка на страницу с карточкой товара &ndash;&gt;-->
+<!--                            <a th:href="...">-->
+<!--                                &lt;!&ndash; В src ссылка изображение товара &ndash;&gt;-->
+<!--                                <img width="300" height="300" th:src="...">-->
+<!--                            </a>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            &lt;!&ndash; В text название товара &ndash;&gt;-->
+<!--                            <b th:text="..."></b>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                       	    &lt;!&ndash; В text цена товара &ndash;&gt;-->
+<!--                            <b th:text="..."></b>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        &lt;!&ndash; В text описание товара &ndash;&gt;-->
+<!--                        <td th:text="..."></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            &lt;!&ndash;-->
+<!--                    		В action ссылка на изменение количества товара в корзине.-->
+<!--                    		Передается параметр запроса action=[minus|plus]-->
+<!--                    	    &ndash;&gt;-->
+<!--                            <form th:action="..." method="post">-->
+<!--                                <button name="action" value="minus">-</button>-->
+<!--                                &lt;!&ndash; В text количество товара в корзине &ndash;&gt;-->
+<!--                                <span th:text="..."></span>-->
+<!--                                <button name="action" value="plus">+</button>-->
+<!--                                &lt;!&ndash; В if true, если товар еще не был добавлен в корзину, false, если уже был &ndash;&gt;-->
+<!--                                <button name="action" value="plus" th:if="..." style="float:right;">В корзину</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </td>-->
+<!--        </tr>-->
     </table>
 </body>
 

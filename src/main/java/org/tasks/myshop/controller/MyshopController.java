@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.tasks.myshop.exception.LoadItemException;
+import org.tasks.myshop.exception.SortException;
 import org.tasks.myshop.service.MyshopService;
 
 import java.io.IOException;
@@ -34,11 +35,12 @@ public class MyshopController {
     public String getItems(
             Model model,
             @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "sort", required = false) String sort,
             @RequestParam(name = "pageSize", required = false) Integer pageSize,
             @RequestParam(name = "pageNumber", required = false) Integer pageNumber
-    ) {
-//        model = myshopService.getItemsModel(model, search, pageSize, pageNumber);
-        model = myshopService.getItemsModel(model, "товар1", 5, 1);
+    ) throws SortException {
+        model = myshopService.getItemsModel(model, search, pageSize, pageNumber, sort);
+//        model = myshopService.getItemsModel(model, "товар1", 5, 1, sort);
         return "main";
     }
 
@@ -59,7 +61,15 @@ public class MyshopController {
 
     @ExceptionHandler(LoadItemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIOException(IOException ex) {
+    public String handleIOException(Model model, IOException ex) {
+        model.addAttribute("reason", ex.getMessage());
+        return "load-error";
+    }
+
+    @ExceptionHandler(SortException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleSortException(Model model, SortException ex) {
+        model.addAttribute("reason", ex.getMessage());
         return "load-error";
     }
 
