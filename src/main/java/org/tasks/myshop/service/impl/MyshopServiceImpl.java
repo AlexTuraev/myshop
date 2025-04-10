@@ -31,19 +31,19 @@ public class MyshopServiceImpl implements MyshopService {
 
     private final ItemRespository itemRespository;
     private final ItemPicsRepository itemPicsRepository;
-//    private final ItemMapper itemMapper;
+    private final ItemMapper  itemMapper;
 
-    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository) {
+    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper) {
         this.itemRespository = itemRespository;
         this.itemPicsRepository = itemPicsRepository;
+        this.itemMapper = itemMapper;
     }
 
     @Override
     public List<ItemDto> getItems(String search, Integer pageSize, Integer pageNumber) {
         PageRequest pageable = PageRequest.of(pageNumber, pageSize);
-        var items = itemRespository.findByTitleStartingWith(search, pageable);
-//        return itemMapper.toDto(items);
-        return null;
+        List<ItemEntity> items = itemRespository.findByTitleStartingWith(search, pageable);
+        return itemMapper.toDto(items);
     }
 
     @Override
