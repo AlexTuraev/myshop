@@ -1,7 +1,6 @@
 package org.tasks.myshop.service.impl;
 
 import com.opencsv.CSVReader;
-import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,8 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.tasks.myshop.enums.SortEnum.ALPHA;
 
 @Service
 public class MyshopServiceImpl implements MyshopService {
