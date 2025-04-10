@@ -84,19 +84,4 @@ public class MyshopController {
         return "redirect:/";
     }
 
-
-    @ExceptionHandler(LoadItemException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIOException(Model model, IOException ex) {
-        model.addAttribute("reason", ex.getMessage());
-        return "load-error";
-    }
-
-    @ExceptionHandler(SortException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleSortException(Model model, SortException ex) {
-        model.addAttribute("reason", ex.getMessage());
-        return "load-error";
-    }
-
 }
