@@ -111,20 +111,21 @@
                     </div>
                 </div>
 
-<!--                <div>-->
-<!--                        &lt;!&ndash;-->
-<!--                        В action ссылка на изменение количества товара в корзине.-->
-<!--                        Передается параметр запроса action=[minus|plus]-->
-<!--                        &ndash;&gt;-->
-<!--                        <form th:action="..." method="post">-->
-<!--                            <button name="action" value="minus">-</button>-->
-<!--                            &lt;!&ndash; В text количество товара в корзине &ndash;&gt;-->
+                <div>
+                        <!--
+                        В action ссылка на изменение количества товара в корзине.
+                        Передается параметр запроса action=[minus|plus]
+                        -->
+                        <form th:action="@{/item/{id}/main_cart (id=${item.id})}" method="post">
+                            <button name="action" value="-1">-</button>
+                            <!-- В text количество товара в корзине -->
 <!--                            <span th:text="..."></span>-->
-<!--                            <button name="action" value="plus">+</button>-->
-<!--                            &lt;!&ndash; В if true, если товар еще не был добавлен в корзину, false, если уже был &ndash;&gt;-->
-<!--                            <button name="action" value="plus" th:if="..." style="float:right;">В корзину</button>-->
-<!--                        </form>-->
-<!--                </div>-->
+                            <span>КОЛ-ВО ДОДЕЛАТЬ</span>
+                            <button name="action" value="1">+</button>
+                            <!-- В if true, если товар еще не был добавлен в корзину, false, если уже был -->
+                            <button name="action" value="plus" th:if="1==1" style="float:right;">В корзину</button>
+                        </form>
+                </div>
             </li>
         </ul>
     </section>
