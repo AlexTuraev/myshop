@@ -17,7 +17,12 @@
             flex-wrap: wrap;
         }
         .products__item-block{
+            width: 300px;
             margin: 15px;
+        }
+        .products__text{
+            height: 30px;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -88,22 +93,22 @@
                         <a th:href="@{/}">
                             <!-- В src ссылка изображение товара -->
                             <div>
-                                <img width="300" height="300" th:src="${item.base64Image}">
+                                <img width="100%" height="300" th:src="${item.base64Image}">
                             </div>
                         </a>
                     </p>
-                    <p>
+                    <div class="products__text">
                         <!-- В text название товара -->
                         <b th:text="${item.title}"></b>
-                    </p>
-                    <p>
+                    </div>
+                    <div class="products__text">
                         <!-- В text цена товара -->
                         <b th:text="${item.price}"></b>
-                    </p>
-                    <p>
+                    </div>
+                    <div class="products__text">
                         <!-- В text описание товара -->
-                        <td th:text="${item.description}"></td>
-                    </p>
+                        <b th:text="${item.description}"></b>
+                    </div>
                 </div>
 
 <!--                <div>-->
