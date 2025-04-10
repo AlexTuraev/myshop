@@ -28,7 +28,8 @@ create table if not exists cart(
     item_id bigint,
     count_item int,
 
-    foreign key (item_id) references items(id) on delete cascade
+    foreign key (item_id) references items(id) on delete cascade,
+    constraint cart_item unique(cart_id, item_id)
     );
 
 -- заказы
