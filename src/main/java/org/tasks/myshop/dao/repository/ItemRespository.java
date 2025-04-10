@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public interface ItemRespository extends JpaRepository<ItemEntity, Long> {
-    List<ItemEntity> findByTitleStartingWith(String search, Pageable pageable);
-
     @Query("SELECT item FROM ItemEntity item WHERE item.title LIKE :search%")
     Page<ItemEntity> findByTitle(String search, Pageable pageable);
 }
