@@ -10,7 +10,7 @@ import org.tasks.myshop.dao.model.ItemEntity;
 @Repository
 public interface ItemRespository extends JpaRepository<ItemEntity, Long> {
     @Query("""
-        SELECT item FROM ItemEntity item JOIN FETCH item.itemPics WHERE item.title LIKE :search%
+        SELECT item FROM ItemEntity item LEFT JOIN FETCH item.itemPics WHERE item.title LIKE :search%
     """)
     Page<ItemEntity> findByTitle(String search, Pageable pageable);
 }
