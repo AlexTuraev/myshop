@@ -54,6 +54,11 @@ public class CartServiceImpl implements CartService {
         return model;
     }
 
+    @Override
+    public int getCountItemOrZeroIfAbsent(Long itemId, Long cartId) {
+        return getCartByItemIdAndCartId(itemId, cartId).map(CartEntity::getCountItem).orElse(0);
+    }
+
     private BigDecimal getTotalSum(List<CartEntity> carts) {
         BigDecimal total = BigDecimal.ZERO;
         for (CartEntity cart : carts) {

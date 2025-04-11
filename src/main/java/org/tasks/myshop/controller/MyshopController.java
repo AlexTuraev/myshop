@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.tasks.myshop.dto.ItemDto;
 import org.tasks.myshop.exception.LoadItemException;
 import org.tasks.myshop.exception.SortException;
+import org.tasks.myshop.service.CartService;
 import org.tasks.myshop.service.MyshopService;
 
 @Controller
@@ -22,9 +23,11 @@ import org.tasks.myshop.service.MyshopService;
 public class MyshopController {
 
     private final MyshopService myshopService;
+    private final CartService cartService;
 
-    public MyshopController(MyshopService myshopService) {
+    public MyshopController(MyshopService myshopService, CartService cartService) {
         this.myshopService = myshopService;
+        this.cartService = cartService;
     }
 
     @GetMapping
@@ -42,7 +45,9 @@ public class MyshopController {
     @GetMapping("/item/{id}")
     public String getItem(Model model, @PathVariable("id") Long id) {
         ItemDto itemDto = myshopService.getItemById(id);
+        int countItem = cartService.getCountItemOrZeroIfAbsent(id, 1L);
         model.addAttribute("item", itemDto);
+        model.addAttribute("countItem", countItem);
         return "item";
     }
 

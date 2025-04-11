@@ -12,4 +12,6 @@ public interface CartService {
     CartEntity updateCountItem(Long itemId, Long cartId, int deltaCount);
 
     Model getCartByCartId(Model model, Long cartId);
+
+    int getCountItemOrZeroIfAbsent(Long itemId, Long cartId);
 }
