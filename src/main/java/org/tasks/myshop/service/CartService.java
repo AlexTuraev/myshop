@@ -3,6 +3,7 @@ package org.tasks.myshop.service;
 import org.springframework.ui.Model;
 import org.tasks.myshop.dao.model.CartEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CartService {
@@ -11,9 +12,11 @@ public interface CartService {
 
     CartEntity updateCountItem(Long itemId, Long cartId, int deltaCount);
 
-    Model getCartByCartId(Model model, Long cartId);
+    public List<CartEntity> getCartsByCartId(Long cartId);
+
+    Model getModelByCartId(Model model, Long cartId);
 
     int getCountItemOrZeroIfAbsent(Long itemId, Long cartId);
 
-    Model purchase(Model model, Long cartId);
+    void deleteAll(List<CartEntity> carts);
 }

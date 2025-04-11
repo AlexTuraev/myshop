@@ -42,3 +42,6 @@ create table if not exists orders(
     foreign key (item_id) references items(id),
     constraint order_item unique(order_id, item_id)
     );
+
+-- changeset alex turaev:2
+CREATE SEQUENCE order_sequence;

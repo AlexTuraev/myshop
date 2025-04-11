@@ -7,26 +7,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tasks.myshop.service.CartService;
+import org.tasks.myshop.service.facade.PurchaseFcdService;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 
     private final CartService cartService;
+    private final PurchaseFcdService purchaseFcdService;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, PurchaseFcdService purchaseFcdService) {
         this.cartService = cartService;
+        this.purchaseFcdService = purchaseFcdService;
     }
 
     @GetMapping("/{id}")
     public String getCartByCartId(@PathVariable("id") Long cartId, Model model) {
-        model = cartService.getCartByCartId(model, cartId);
+        model = cartService.getModelByCartId(model, cartId);
         return "cart";
     }
 
     @PostMapping("/{id}/buy")
     public String cartBuy(@PathVariable("id") Long cartId, Model model) {
-        cartService.purchase(model, cartId);
-        return "cart";
+        purchaseFcdService.purchase(model, cartId);
+        return "redirect:/cart/1";
     }
 }

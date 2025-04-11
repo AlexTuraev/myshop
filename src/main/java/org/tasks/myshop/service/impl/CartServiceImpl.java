@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.tasks.myshop.dao.model.CartEntity;
 import org.tasks.myshop.dao.repository.CartRepository;
 import org.tasks.myshop.service.CartService;
+import org.tasks.myshop.service.OrderService;
 import org.tasks.myshop.service.mapper.CartMapper;
 
 import java.math.BigDecimal;
@@ -48,8 +49,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Model getCartByCartId(Model model, Long cartId) {
-        List<CartEntity> cart = cartRepository.getCartModelByCartId(cartId);
+    public List<CartEntity> getCartsByCartId(Long cartId) {
+        return cartRepository.getCartModelByCartId(cartId);
+    }
+
+    @Override
+    public Model getModelByCartId(Model model, Long cartId) {
+        List<CartEntity> cart = getCartsByCartId(cartId);
         model.addAttribute("cartItems", cart.stream().map(cartMapper::toDto).toList());
         model.addAttribute("totalSum", getTotalSum(cart));
         return model;
@@ -61,11 +67,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional
-    public Model purchase(Model model, Long cartId) {
-        List<CartEntity> carts = cartRepository.getCartModelByCartId(cartId);
-
-        return null;
+    public void deleteAll(List<CartEntity> carts) {
+        cartRepository.deleteAll(carts);
     }
 
     private BigDecimal getTotalSum(List<CartEntity> carts) {

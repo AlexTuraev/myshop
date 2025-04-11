@@ -7,8 +7,10 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.tasks.myshop.dao.model.complexid.OrderEntityId;
 
 import java.math.BigDecimal;
@@ -34,5 +36,10 @@ public class OrderEntity {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    public OrderEntity orderId(Long newOrderId) {
+        this.orderId = newOrderId;
+        return this;
+    }
 
 }
