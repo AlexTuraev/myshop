@@ -74,12 +74,12 @@
                 Передается параметр запроса action=[minus|plus]
                 -->
                 <form th:action="@{myshop/item/{id}/fromcart (id=${cartItem.item.id})}" method="post">
-                    <button name="action" value="-1">-</button>
+                    <button th:if="${cartItem.countItem>0}" name="action" value="-1">-</button>
                     <!-- В text количество товара в корзине -->
                     <span th:text="${cartItem.countItem}"></span>
-                    <button name="action" value="1">+</button>
+                    <button th:if="${cartItem.item.quantity>0}" name="action" value="1">+</button>
                     <!-- В if true, если товар еще не был добавлен в корзину, false, если уже был -->
-                    <button name="action" value="delete" style="float:right;">&cross;</button>
+                    <button th:if="${cartItem.countItem>0}" name="action" value="delete" style="float:right;">&cross;</button>
                 </form>
             </div>
         </li>
