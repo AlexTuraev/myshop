@@ -14,4 +14,6 @@ public interface CartService {
     Model getCartByCartId(Model model, Long cartId);
 
     int getCountItemOrZeroIfAbsent(Long itemId, Long cartId);
+
+    Model purchase(Model model, Long cartId);
 }

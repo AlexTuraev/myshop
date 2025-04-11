@@ -1,6 +1,7 @@
 package org.tasks.myshop.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.tasks.myshop.dao.model.CartEntity;
 import org.tasks.myshop.dao.repository.CartRepository;
@@ -57,6 +58,14 @@ public class CartServiceImpl implements CartService {
     @Override
     public int getCountItemOrZeroIfAbsent(Long itemId, Long cartId) {
         return getCartByItemIdAndCartId(itemId, cartId).map(CartEntity::getCountItem).orElse(0);
+    }
+
+    @Override
+    @Transactional
+    public Model purchase(Model model, Long cartId) {
+        List<CartEntity> carts = cartRepository.getCartModelByCartId(cartId);
+
+        return null;
     }
 
     private BigDecimal getTotalSum(List<CartEntity> carts) {

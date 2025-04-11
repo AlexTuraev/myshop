@@ -96,7 +96,7 @@
             В action ссылка на страницу оформления заказа.
             В if true, если в корзине есть товары, false, если нет
         -->
-        <form action="@{~/cart/1/buy}" method="post" th:if="1==1">
+        <form th:action="@{~/cart/1/buy}" method="post" th:if="1==1">
             <button>Купить</button>
         </form>
     </div>

@@ -39,5 +39,6 @@ create table if not exists orders(
     count_item int,
     price numeric(10, 2),
 
-    foreign key (item_id) references items(id)
+    foreign key (item_id) references items(id),
+    constraint order_item unique(order_id, item_id)
     );
