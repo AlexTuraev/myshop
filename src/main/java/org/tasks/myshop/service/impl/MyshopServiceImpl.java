@@ -58,13 +58,20 @@ public class MyshopServiceImpl implements MyshopService {
     }
 
     @Override
+    public Page<ItemEntity> getItemsOverMinQuantity(String search, Integer pageSize, Integer pageNumber, SortEnum sortType, int minQuantity) {
+        Sort sort = Sort.by(Sort.Direction.ASC, sortType.getSortField());
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return itemRespository.findByTitleAndOverMinQuantity(search, pageable, minQuantity);
+    }
+
+    @Override
     public Model getItemsModel(Model model, String search, Integer pageSize, Integer pageNumber, String sort) throws SortException {
         int pageLimit = pageSize == null ? DEFAULT_PAGE_SIZE : pageSize;
         int pageNo = pageNumber == null ? DEFAULT_PAGE_NUMBER : pageNumber - 1;
         SortEnum sortEnum = (sort == null || sort.isEmpty()) ? DEFAULT_SORT : SortEnum.getByValue(sort);
         String searchString = search == null ? DEFAULT_SEARCH : search;
 
-        Page<ItemEntity> pageItems = getItems(searchString, pageLimit, pageNo, sortEnum);
+        Page<ItemEntity> pageItems = getItemsOverMinQuantity(searchString, pageLimit, pageNo, sortEnum, 1);
         List<ItemDto> items = itemMapper.toDto(pageItems.getContent());
 
         model.addAttribute("items", items);

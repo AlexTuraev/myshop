@@ -13,4 +13,9 @@ public interface ItemRespository extends JpaRepository<ItemEntity, Long> {
         SELECT item FROM ItemEntity item LEFT JOIN FETCH item.itemPics WHERE item.title LIKE :search%
     """)
     Page<ItemEntity> findByTitle(String search, Pageable pageable);
+
+    @Query("""
+        SELECT item FROM ItemEntity item LEFT JOIN FETCH item.itemPics WHERE item.title LIKE :search% AND item.quantity >= :minQuantity
+    """)
+    Page<ItemEntity> findByTitleAndOverMinQuantity(String search, Pageable pageable, int minQuantity);
 }
