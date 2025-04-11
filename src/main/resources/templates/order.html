@@ -9,15 +9,15 @@
 
 <body>
 <!-- В href ссылка на страницу заказов -->
-<a href="..." style="float:right;">
+<a th:href="@{~/orders}" style="float:right;">
     <b>ЗАКАЗЫ &cudarrr;</b>
 </a>
 <!-- В href ссылка на корзину -->
-<a href="..." style="float:right;">
+<a th:href="@{~/cart/1}" style="float:right;">
     <b>КОРЗИНА &cudarrr;</b>
 </a>
 <!-- В href ссылка на главную страницу -->
-<a href="..." style="float:right;">
+<a th:href="@{~/myshop}" style="float:right;">
     <b>ГЛАВНАЯ &cudarrr;</b>
 </a>
 <!-- В if true, если перешли со страницы оформления заказа, false в остальных случаях -->

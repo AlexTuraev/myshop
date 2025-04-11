@@ -30,6 +30,6 @@ public class CartController {
     @PostMapping("/{id}/buy")
     public String cartBuy(@PathVariable("id") Long cartId, Model model) {
         purchaseFcdService.purchase(model, cartId);
-        return "redirect:/cart/1";
+        return "order-success";
     }
 }

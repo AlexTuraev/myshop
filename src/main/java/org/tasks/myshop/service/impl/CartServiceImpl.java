@@ -1,12 +1,10 @@
 package org.tasks.myshop.service.impl;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.tasks.myshop.dao.model.CartEntity;
 import org.tasks.myshop.dao.repository.CartRepository;
 import org.tasks.myshop.service.CartService;
-import org.tasks.myshop.service.OrderService;
 import org.tasks.myshop.service.mapper.CartMapper;
 
 import java.math.BigDecimal;
@@ -71,7 +69,8 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteAll(carts);
     }
 
-    private BigDecimal getTotalSum(List<CartEntity> carts) {
+    @Override
+    public BigDecimal getTotalSum(List<CartEntity> carts) {
         BigDecimal total = BigDecimal.ZERO;
         for (CartEntity cart : carts) {
             BigDecimal sumItem = cart.getItem().getPrice().multiply(BigDecimal.valueOf(cart.getCountItem()));

@@ -3,6 +3,7 @@ package org.tasks.myshop.service;
 import org.springframework.ui.Model;
 import org.tasks.myshop.dao.model.CartEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface CartService {
     int getCountItemOrZeroIfAbsent(Long itemId, Long cartId);
 
     void deleteAll(List<CartEntity> carts);
+
+    BigDecimal getTotalSum(List<CartEntity> carts);
 }
