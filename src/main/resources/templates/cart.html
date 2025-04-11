@@ -5,9 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина товаров</title>
+    <style>
+        ul, li{
+            list-style: none;
+        }
+        .products{
+            width: 70%;
+            margin: 10px auto;
+        }
+        .products__ul-flex{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .products__item-block{
+            width: 300px;
+            margin: 15px;
+        }
+        .products__text{
+            height: 30px;
+            overflow: hidden;
+        }
+        .products__total-summ{
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
+<h1 style="text-align: center">Корзина товаров</h1>
 <!-- В href ссылка на страницу заказов -->
 <a href="@{~/orders}" style="float:right;">
     <b>ЗАКАЗЫ &cudarrr;</b>
@@ -16,65 +42,65 @@
 <a href="@{~/myshop}" style="float:right;">
     <b>ГЛАВНАЯ &cudarrr;</b>
 </a>
-<table style="width:70%;margin-left:auto;margin-right:auto;">
-   <!-- Итерируемся по каждому товару -->
-    <tr th:each="...">
-        <td>
-            <table>
-                <tr>
-                    <td>
+<section class="products">
+    <ul class="products__ul-flex">
+        <li th:each="cartItem : ${cartItems}">
+            <div class="products__item-block">
+                <p>
+                    <a th:href="@{myshop/item/{id}(id=${cartItem.itemId})}">
                         <!-- В src ссылка изображение товара -->
-                        <img width="300" height="300" th:src="...">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <!-- В text название товара -->
-                        <b th:text="..."></b>
-                    </td>
-                    <td>
-                        <!-- В text цена товара -->
-                        <b th:text="..."></b>
-                    </td>
-                </tr>
-                <!-- В text описание товара -->
-                <tr><td th:text="..."></td></tr>
-                <tr>
-                    <td>
-                    	<!-- 
-                    		В action ссылка на изменение количества товара в корзине.
-                    		Передается параметр запроса action=[minus|plus]
-                    	-->
-                        <form th:action="..." method="post">
-                            <button name="action" value="minus">-</button>
-                            <!-- В text количество товара в корзине -->
-                            <span th:text="..."></span>
-                            <button name="action" value="plus">+</button>
-                            <button name="action" value="delete" style="float:right;">&cross;</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td style="text-align:right">
-            <!-- В text суммарная стоимость заказа -->
-            <b th:text="...'"></b>
-        </td>
-    </tr>
-    <tr>
-        <td style="text-align:right">
-            <!-- 
-            	В action ссылка на страницу оформления заказа.
-            	В if true, если в корзине есть товары, false, если нет
-            -->
-            <form action="..." method="post" th:if="...">
-                <button>Купить</button>
-            </form>
-        </td>
-    </tr>
-</table>
+                        <div>
+                            <img width="100%" height="300" th:src="${cartItem.item.base64Image}">
+                        </div>
+                    </a>
+                </p>
+                <div class="products__text">
+                    <!-- В text название товара -->
+                    <b th:text="${cartItem.item.title}"></b>
+                </div>
+                <div class="products__text">
+                    <!-- В text цена товара -->
+                    <b th:text="${cartItem.item.price}"></b>
+                </div>
+                <div class="products__text">
+                    <!-- В text описание товара -->
+                    <b th:text="${cartItem.item.description}"></b>
+                </div>
+            </div>
+
+            <div>
+                <!--
+                В action ссылка на изменение количества товара в корзине.
+                Передается параметр запроса action=[minus|plus]
+                -->
+                <form th:action="@{myshop/item/{id}/fromcart (id=${cartItem.item.id})}" method="post">
+                    <button name="action" value="-1">-</button>
+                    <!-- В text количество товара в корзине -->
+                    <span th:text="${cartItem.countItem}"></span>
+                    <button name="action" value="1">+</button>
+                    <!-- В if true, если товар еще не был добавлен в корзину, false, если уже был -->
+                    <button name="action" value="delete" style="float:right;">&cross;</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+    <div style="text-align:right">
+        <!-- В text суммарная стоимость заказа -->
+        <!--            <b th:text="...'"></b>-->
+        <div class="products__total-summ">
+            <b th:text="${totalSum}"></b>
+        </div>
+    </div>
+    <div style="text-align:right">
+        <!--
+            В action ссылка на страницу оформления заказа.
+            В if true, если в корзине есть товары, false, если нет
+        -->
+        <form action="@{~/cart/1/buy}" method="post" th:if="1==1">
+            <button>Купить</button>
+        </form>
+    </div>
+</section>
 </body>
 
 </html>

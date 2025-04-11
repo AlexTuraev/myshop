@@ -10,11 +10,16 @@ import org.tasks.myshop.service.CartService;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
-    private CartService cartService;
+
+    private final CartService cartService;
+
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     @GetMapping("/{id}")
     public String getCartByCartId(@PathVariable("id") Long cartId, Model model) {
-        return null;
-//        return "cart";
+        model = cartService.getCartByCartId(model, cartId);
+        return "cart";
     }
 }

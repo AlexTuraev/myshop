@@ -3,7 +3,6 @@ package org.tasks.myshop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.tasks.myshop.dao.model.ItemPicsEntity;
 
 import java.math.BigDecimal;
 
