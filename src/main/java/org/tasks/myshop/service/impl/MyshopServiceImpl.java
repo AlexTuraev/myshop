@@ -36,6 +36,7 @@ public class MyshopServiceImpl implements MyshopService {
     private final int DEFAULT_PAGE_SIZE = 5;
     private final int DEFAULT_PAGE_NUMBER = 0;
     private final SortEnum DEFAULT_SORT = SortEnum.NO;
+    private final String DEFAULT_SEARCH = "";
 
     private final ItemRespository itemRespository;
     private final ItemPicsRepository itemPicsRepository;
@@ -61,12 +62,13 @@ public class MyshopServiceImpl implements MyshopService {
         int pageLimit = pageSize == null ? DEFAULT_PAGE_SIZE : pageSize;
         int pageNo = pageNumber == null ? DEFAULT_PAGE_NUMBER : pageNumber - 1;
         SortEnum sortEnum = (sort == null || sort.isEmpty()) ? DEFAULT_SORT : SortEnum.getByValue(sort);
+        String searchString = search == null ? DEFAULT_SEARCH : search;
 
-        Page<ItemEntity> pageItems = getItems(search, pageLimit, pageNo, sortEnum);
+        Page<ItemEntity> pageItems = getItems(searchString, pageLimit, pageNo, sortEnum);
         List<ItemDto> items = itemMapper.toDto(pageItems.getContent());
 
         model.addAttribute("items", items);
-        model.addAttribute("search", search);
+        model.addAttribute("search", searchString);
         model.addAttribute("sort", sortEnum.getValue());
         model.addAttribute("paging", new PagingDto(pageLimit, pageNo+1, pageItems.getTotalPages()));
         return model;
