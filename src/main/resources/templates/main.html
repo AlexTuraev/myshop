@@ -90,7 +90,7 @@
             <li th:each="item : ${items}">
                 <div class="products__item-block">
                     <p>
-                        <a th:href="@{/item/{id}(id=${item.id})}">
+                        <a th:href="@{myshop/item/{id}(id=${item.id})}">
                             <!-- В src ссылка изображение товара -->
                             <div>
                                 <img width="100%" height="300" th:src="${item.base64Image}">
@@ -116,7 +116,7 @@
                         В action ссылка на изменение количества товара в корзине.
                         Передается параметр запроса action=[minus|plus]
                         -->
-                        <form th:action="@{/item/{id}/maincart (id=${item.id})}" method="post">
+                        <form th:action="@{myshop/item/{id}/maincart (id=${item.id})}" method="post">
                             <button name="action" value="-1">-</button>
                             <!-- В text количество товара в корзине -->
 <!--                            <span th:text="..."></span>-->

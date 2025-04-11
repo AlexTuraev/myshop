@@ -39,7 +39,7 @@
 		В action ссылка на изменение количества товара в корзине.
 		Передается параметр запроса action=[minus|plus]
 	-->
-        <form th:action="@{/item/{id}/cart (id=${item.id})}" method="post">
+        <form th:action="@{~/myshop/item/{id}/cart (id=${item.id})}" method="post">
             <button name="action" value="-1">-</button>
             <!-- В text количество товара в корзине -->
             <span th:text="${countItem}"></span>
