@@ -11,7 +11,7 @@ import org.tasks.myshop.dto.OrderDto;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CartOrderMapper {
 
-    @Mapping(target = "price", source = "cart.item.price")
+//    @Mapping(target = "price", source = "cart.item.price")
     OrderEntity cartToOrderEntity(CartEntity cart);
 
     OrderDto cartToOrderDto(CartDto cartDto);

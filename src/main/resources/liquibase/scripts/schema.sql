@@ -1,8 +1,6 @@
 -- liquibase formatted sql
 
 -- changeset alex turaev:1
--- drop table if exists items;
--- drop table if exists users;
 
 -- товары
 create table if not exists items(
@@ -23,13 +21,8 @@ create table if not exists item_pics(
     );
 
 -- корзина
-create table if not exists cart(
-    cart_id bigint,
-    item_id bigint,
-    count_item int,
-
-    foreign key (item_id) references items(id) on delete cascade,
-    constraint cart_item unique(cart_id, item_id)
+create table if not exists carts(
+    id bigserial primary key
     );
 
 -- заказы

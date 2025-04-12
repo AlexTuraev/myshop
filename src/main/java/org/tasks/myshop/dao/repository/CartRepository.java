@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
-    Optional<CartEntity> findByItemIdAndCartId(Long itemId, Long cartId);
+//    Optional<CartEntity> findByItemIdAndCartId(Long itemId, Long cartId);
 
-    void deleteByItemIdAndCartId(Long itemId, Long cartId);
+//    void deleteByItemIdAndCartId(Long itemId, Long cartId);
 
-    @Query("""
+    /*@Query("""
         SELECT ct FROM CartEntity ct 
             JOIN FETCH ct.item 
                 LEFT JOIN FETCH ct.item.itemPics WHERE ct.cartId=:cartId
     """)
-    List<CartEntity> getCartModelByCartId(Long cartId);
+    List<CartEntity> getCartModelByCartId(Long cartId);*/
 
 }

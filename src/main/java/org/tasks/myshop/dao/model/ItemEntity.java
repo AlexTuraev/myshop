@@ -17,7 +17,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -42,11 +44,16 @@ public class ItemEntity {
     private BigDecimal price;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private Integer quantity; // складской запас
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "item_id")
     private ItemPicsEntity itemPics;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "items")
+    private Set<CartEntity> carts = new HashSet<>();
+
+
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "items")
     private List<OrderEntity> orders = new ArrayList<>();

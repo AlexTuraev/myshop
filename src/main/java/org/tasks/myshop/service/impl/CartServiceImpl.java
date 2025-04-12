@@ -23,32 +23,33 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Optional<CartEntity> getCartByItemIdAndCartId(Long itemId, Long cartId) {
-        return cartRepository.findByItemIdAndCartId(itemId, cartId);
-    }
-
-    @Override
     public CartEntity updateCountItem(Long itemId, Long cartId, int deltaCount) {
-        CartEntity cart = getCartByItemIdAndCartId(itemId, cartId)
-                .orElse(new CartEntity(cartId, itemId, 0, null));
+        CartEntity cart = cartRepository.findById(cartId)
+                .orElse(new CartEntity());
 
-        if (cart.getCountItem() == 0 && deltaCount < 0) {
-            throw new RuntimeException("Попытка уменьшить отсутствующее значение");
+        if (cart.getId() == null) {
+            cartRepository.save(cart);
         }
 
-        cart.setCountItem(cart.getCountItem() + deltaCount);
-        if (cart.getCountItem() > 0) {
+        /*if (cart.getCountItems().get(itemId) == 0 && deltaCount < 0) {
+            throw new RuntimeException("Попытка уменьшить отсутствующее значение");
+        }*/
+
+        cart.getCountItems().put(itemId, cart.getCountItems().get(itemId) + deltaCount);
+
+        if (cart.getCountItems().get(itemId) > 0) {
             return cartRepository.save(cart);
         }
         else {
-            cartRepository.deleteByItemIdAndCartId(itemId, cartId);
+            cart.getCountItems().remove(itemId);
             return cart;
         }
     }
 
     @Override
     public List<CartEntity> getCartsByCartId(Long cartId) {
-        return cartRepository.getCartModelByCartId(cartId);
+//        return cartRepository.getCartModelByCartId(cartId);
+        return null;
     }
 
     @Override
@@ -61,7 +62,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public int getCountItemOrZeroIfAbsent(Long itemId, Long cartId) {
-        return getCartByItemIdAndCartId(itemId, cartId).map(CartEntity::getCountItem).orElse(0);
+//        return getCartByItemIdAndCartId(itemId, cartId).map(CartEntity::getCountItem).orElse(0);
+        return 0;
     }
 
     @Override
@@ -71,12 +73,13 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public BigDecimal getTotalSum(List<CartEntity> carts) {
-        BigDecimal total = BigDecimal.ZERO;
+        /*BigDecimal total = BigDecimal.ZERO;
         for (CartEntity cart : carts) {
             BigDecimal sumItem = cart.getItem().getPrice().multiply(BigDecimal.valueOf(cart.getCountItem()));
             total = total.add(sumItem);
         }
-        return total;
+        return total;*/
+        return BigDecimal.ZERO;
     }
 
 }

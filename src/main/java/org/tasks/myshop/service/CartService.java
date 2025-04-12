@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface CartService {
 
-    Optional<CartEntity> getCartByItemIdAndCartId(Long itemId, Long cartId);
-
     CartEntity updateCountItem(Long itemId, Long cartId, int deltaCount);
 
     public List<CartEntity> getCartsByCartId(Long cartId);

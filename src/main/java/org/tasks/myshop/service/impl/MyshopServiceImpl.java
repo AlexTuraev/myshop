@@ -111,9 +111,9 @@ public class MyshopServiceImpl implements MyshopService {
     public Model changeItemCart(Model model, Long itemId, Long cartId, int delta) {
         CartEntity cart = cartService.updateCountItem(itemId, cartId, delta);
         ItemEntity item = updateCountItem(itemId, -delta);
-        // ToDo
+        
         model.addAttribute("item", itemMapper.toDto(item));
-        model.addAttribute("countItem", cart.getCountItem());
+//        model.addAttribute("countItem", cart.getCountItem());
         return model;
     }
 
