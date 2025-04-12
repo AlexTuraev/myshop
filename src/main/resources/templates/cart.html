@@ -88,7 +88,7 @@
         <!-- В text суммарная стоимость заказа -->
         <!--            <b th:text="...'"></b>-->
         <div class="products__total-summ">
-            <b th:text="${totalSum}"></b>
+            <br><b th:text="${'Итого: ' + totalSum + ' руб.'}"></b>
         </div>
     </div>
     <div style="text-align:right">
@@ -96,7 +96,7 @@
             В action ссылка на страницу оформления заказа.
             В if true, если в корзине есть товары, false, если нет
         -->
-        <form th:action="@{~/cart/1/buy}" method="post" th:if="1==1">
+        <form th:action="@{~/cart/1/buy}" method="post" th:if="${cartItems.size() > 0}">
             <button>Купить</button>
         </form>
     </div>
