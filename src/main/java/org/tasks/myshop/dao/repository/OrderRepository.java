@@ -24,4 +24,10 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
             nativeQuery = true)
     List<?> findModelOrders();
 
+    @Query("""
+        SELECT o FROM OrderEntity o
+            LEFT JOIN FETCH o.item
+                LEFT JOIN FETCH o.item.itemPics WHERE o.orderId=:orderId
+    """)
+    List<OrderEntity> findAllWhereId(Long orderId);
 }

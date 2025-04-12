@@ -2,6 +2,7 @@ package org.tasks.myshop.service.impl;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.tasks.myshop.dao.model.CartEntity;
 import org.tasks.myshop.dao.model.OrderEntity;
 import org.tasks.myshop.dao.model.complexid.OrderEntityId;
@@ -40,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Long, InnerOrder> findAll() {
-    // -----------------------------------------------------
         List<OrderDto> dtos = orderRepository.findAll()
                 .stream().map(orderMapper::toDto).toList();
         Map<Long, List<OrderDto>> mapOrders = dtos.stream().collect(Collectors.groupingBy(OrderDto::getOrderId));
@@ -50,11 +50,24 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         return newMap;
-        // -----------------------------------------------------
+    }
 
-        /*return orderRepository.findAll()
-                .stream().map(orderMapper::toDto)
-                .collect(Collectors.groupingBy(OrderDto::getOrderId));*/
+    @Override
+    public List<OrderDto> getOrdersById(Long orderId) {
+        return orderRepository.findAllWhereId(orderId)
+                .stream().map(orderMapper::toDto).toList();
+    }
+
+    @Override
+    public Model getModelOrdersById(Model model, Long orderId) {
+        List<OrderDto> orderDtos = getOrdersById(orderId);
+
+        model.addAttribute("afterPurchase", false);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("orders", orderDtos);
+        model.addAttribute("totalSum", getTotalSum(orderDtos));
+
+        return model;
     }
 
     public BigDecimal getTotalSum(List<OrderDto> orders) {

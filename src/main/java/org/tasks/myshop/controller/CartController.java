@@ -29,7 +29,7 @@ public class CartController {
 
     @PostMapping("/{id}/buy")
     public String cartBuy(@PathVariable("id") Long cartId, Model model) {
-        purchaseFcdService.purchase(model, cartId);
+        model = purchaseFcdService.purchase(model, cartId);
         return "order";
     }
 }

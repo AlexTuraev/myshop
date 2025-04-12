@@ -25,7 +25,7 @@
             		В text номер заказа.
             		В href ссылка на страницу заказа. 
             	-->
-                <a th:text="${order.key}" th:href="@{/{id} (id=${order.key})}"></a>
+                <a th:text="${order.key}" th:href="@{/orders/{id} (id=${order.key})}"></a>
             </h2>
             <table>
                 <!-- Итерируемся по товарам в заказе -->
