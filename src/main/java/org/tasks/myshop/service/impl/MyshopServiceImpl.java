@@ -1,6 +1,7 @@
 package org.tasks.myshop.service.impl;
 
 import com.opencsv.CSVReader;
+import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.tasks.myshop.dao.model.CartEntity;
 import org.tasks.myshop.dao.model.ItemEntity;
+import org.tasks.myshop.dao.model.ItemModel;
 import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
@@ -42,12 +44,14 @@ public class MyshopServiceImpl implements MyshopService {
     private final ItemPicsRepository itemPicsRepository;
     private final ItemMapper  itemMapper;
     private final CartService  cartService;
+    private final EntityManager em;
 
-    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper, CartService cartService) {
+    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper, CartService cartService, EntityManager em) {
         this.itemRespository = itemRespository;
         this.itemPicsRepository = itemPicsRepository;
         this.itemMapper = itemMapper;
         this.cartService = cartService;
+        this.em = em;
     }
 
     @Override
@@ -61,7 +65,26 @@ public class MyshopServiceImpl implements MyshopService {
     public Page<ItemEntity> getItemsOverMinQuantity(String search, Integer pageSize, Integer pageNumber, SortEnum sortType, int minQuantity) {
         Sort sort = Sort.by(Sort.Direction.ASC, sortType.getSortField());
         PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
+
+        // ---------------------------------------------------
+        /*List<ItemEntity> list = em.createQuery("""
+        SELECT item
+        FROM ItemEntity item
+            LEFT JOIN FETCH CartEntity c ON item.id = c.itemId
+            LEFT JOIN FETCH item.itemPics
+                WHERE item.title LIKE :search% AND item.quantity >= :minQuantity
+                    AND c.cartId=1
+    """, ItemEntity.class)
+                .setParameter("search", search)
+                .setParameter("minQuantity", minQuantity)
+                .getResultList();*/
+
+        var temp = itemRespository.findByTitleAndOverMinQuantityNew(search, pageable, minQuantity);
+//        var temp = itemRespository.findByTitleAndOverMinQuantityNew(search, minQuantity);
+        // ---------------------------------------------------
+
         return itemRespository.findByTitleAndOverMinQuantity(search, pageable, minQuantity);
+
     }
 
     @Override
