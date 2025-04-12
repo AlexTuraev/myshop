@@ -22,4 +22,6 @@ public interface MyshopService {
     ItemDto getItemById(Long id);
 
     Model changeItemCart(Model model, Long itemId, Long cartId, int delta);
+
+    ItemEntity updateCountItem(Long itemId, int deltaCount);
 }

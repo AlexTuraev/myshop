@@ -117,6 +117,7 @@ public class MyshopServiceImpl implements MyshopService {
         return model;
     }
 
+    @Override
     public ItemEntity updateCountItem(Long itemId, int deltaCount) {
         return itemRespository
                 .findById(itemId)

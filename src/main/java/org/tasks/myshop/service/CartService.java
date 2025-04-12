@@ -22,4 +22,5 @@ public interface CartService {
     void deleteAll(List<CartEntity> carts);
 
     BigDecimal getTotalSum(List<CartEntity> carts);
+
 }
