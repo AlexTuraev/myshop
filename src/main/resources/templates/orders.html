@@ -25,18 +25,19 @@
             		В text номер заказа.
             		В href ссылка на страницу заказа. 
             	-->
-                <a th:text="${order.getOrderId()}" th:href="@{/{id} (id=${order.getOrderId()})}"></a>
+                <a th:text="${order.key}" th:href="@{/{id} (id=${order.key})}"></a>
             </h2>
             <table>
                 <!-- Итерируемся по товарам в заказе -->
-                <tr th:each="...">
+                <tr th:each="orderItem : ${order.value.getOrders()}">
                     <!-- В text название товара, количество штук и стоимость -->
-                    <td th:text=""></td>
+<!--                    кол-во=${orderItem.getCountItem()} + цена=${orderItem.getPrice()}-->
+                    <td th:text="${'Наименование: ' + orderItem.getItem().title + ' кол-во: ' + orderItem.getCountItem() + ' цена: ' + orderItem.getPrice()}"></td>
                 </tr>
             </table>
             <p>
                 <!-- В text общая сумма заказа -->
-                <b th:text="..."></b>
+                <b th:text="${order.value.getTotalSum()}"></b>
             </p>
         </td>
     </tr>

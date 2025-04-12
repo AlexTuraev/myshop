@@ -4,10 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.tasks.myshop.dto.InnerOrder;
 import org.tasks.myshop.dto.OrderDto;
 import org.tasks.myshop.service.OrderService;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/orders")
@@ -21,7 +23,7 @@ public class OrderController {
 
     @GetMapping
     public String getOrders(Model model) {
-        List<OrderDto> orders = orderService.findAll();
+        Map<Long, InnerOrder> orders = orderService.findAll();
         model.addAttribute("orders", orders);
 
         return "orders";

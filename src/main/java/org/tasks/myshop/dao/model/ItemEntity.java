@@ -48,7 +48,4 @@ public class ItemEntity {
     @JoinColumn(name = "id", referencedColumnName = "item_id")
     private ItemPicsEntity itemPics;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "items")
-    private List<OrderEntity> orders = new ArrayList<>();
-
 }
