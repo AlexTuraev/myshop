@@ -22,12 +22,11 @@ public class CartChangeFcdServiceImpl implements CartChangeFcdService {
 
     @Override
     @Transactional
-    public Model updateItemInCart(Long cartId, Long itemId, String action) {
+    public void updateItemInCart(Long cartId, Long itemId, String action) {
         int delta = getDelta(cartId, itemId, action);
 
         CartEntity cart = cartService.updateCountItem(itemId, cartId, delta);
         ItemEntity item = myshopService.updateCountItem(itemId, -delta);
-        return null;
     }
 
     @Override
