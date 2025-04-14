@@ -48,7 +48,5 @@ public class ItemEntity {
 
     @Transient
     private Integer countInSomeCart;
-    /*@OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
-    private List<CartEntity> carts;*/
 
 }

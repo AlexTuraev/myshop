@@ -1,7 +1,6 @@
 package org.tasks.myshop.service.impl;
 
 import com.opencsv.CSVReader;
-import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +15,7 @@ import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
 import org.tasks.myshop.dto.ItemDto;
+import org.tasks.myshop.dto.ItemModelDto;
 import org.tasks.myshop.dto.PagingDto;
 import org.tasks.myshop.enums.SortEnum;
 import org.tasks.myshop.exception.LoadItemException;
@@ -23,6 +23,7 @@ import org.tasks.myshop.exception.SortException;
 import org.tasks.myshop.service.CartService;
 import org.tasks.myshop.service.MyshopService;
 import org.tasks.myshop.service.mapper.ItemMapper;
+import org.tasks.myshop.service.mapper.ItemModelMapper;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,14 +45,14 @@ public class MyshopServiceImpl implements MyshopService {
     private final ItemPicsRepository itemPicsRepository;
     private final ItemMapper  itemMapper;
     private final CartService  cartService;
-    private final EntityManager em;
+    private final ItemModelMapper itemModelMapper;
 
-    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper, CartService cartService, EntityManager em) {
+    public MyshopServiceImpl(ItemRespository itemRespository, ItemPicsRepository itemPicsRepository, ItemMapper itemMapper, CartService cartService, ItemModelMapper itemModelMapper) {
         this.itemRespository = itemRespository;
         this.itemPicsRepository = itemPicsRepository;
         this.itemMapper = itemMapper;
         this.cartService = cartService;
-        this.em = em;
+        this.itemModelMapper = itemModelMapper;
     }
 
     @Override
@@ -62,29 +63,11 @@ public class MyshopServiceImpl implements MyshopService {
     }
 
     @Override
-    public Page<ItemEntity> getItemsOverMinQuantity(String search, Integer pageSize, Integer pageNumber, SortEnum sortType, int minQuantity) {
+    public Page<ItemModel> getItemsOverMinQuantity(String search, Integer pageSize, Integer pageNumber, SortEnum sortType, int minQuantity) {
         Sort sort = Sort.by(Sort.Direction.ASC, sortType.getSortField());
         PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
 
-        // ---------------------------------------------------
-        /*List<ItemEntity> list = em.createQuery("""
-        SELECT item
-        FROM ItemEntity item
-            LEFT JOIN FETCH CartEntity c ON item.id = c.itemId
-            LEFT JOIN FETCH item.itemPics
-                WHERE item.title LIKE :search% AND item.quantity >= :minQuantity
-                    AND c.cartId=1
-    """, ItemEntity.class)
-                .setParameter("search", search)
-                .setParameter("minQuantity", minQuantity)
-                .getResultList();*/
-
-        var temp = itemRespository.findByTitleAndOverMinQuantityNew(search, pageable, minQuantity);
-//        var temp = itemRespository.findByTitleAndOverMinQuantityNew(search, minQuantity);
-        // ---------------------------------------------------
-
-        return itemRespository.findByTitleAndOverMinQuantity(search, pageable, minQuantity);
-
+        return itemRespository.findByTitleAndOverMinQuantityNew(search, pageable, minQuantity);
     }
 
     @Override
@@ -94,8 +77,8 @@ public class MyshopServiceImpl implements MyshopService {
         SortEnum sortEnum = (sort == null || sort.isEmpty()) ? DEFAULT_SORT : SortEnum.getByValue(sort);
         String searchString = search == null ? DEFAULT_SEARCH : search;
 
-        Page<ItemEntity> pageItems = getItemsOverMinQuantity(searchString, pageLimit, pageNo, sortEnum, 1);
-        List<ItemDto> items = itemMapper.toDto(pageItems.getContent());
+        Page<ItemModel> pageItems = getItemsOverMinQuantity(searchString, pageLimit, pageNo, sortEnum, 1);
+        List<ItemModelDto> items = pageItems.getContent().stream().map(itemModelMapper::toDto).toList();
 
         model.addAttribute("items", items);
         model.addAttribute("search", searchString);
