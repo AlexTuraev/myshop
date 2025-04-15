@@ -3,7 +3,9 @@ package org.tasks.myshop.service.impl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.tasks.myshop.config.TestMapperConfig;
 import org.tasks.myshop.dao.model.ItemEntity;
 import org.tasks.myshop.dao.repository.ItemPicsRepository;
 import org.tasks.myshop.dao.repository.ItemRespository;
@@ -11,10 +13,8 @@ import org.tasks.myshop.dto.ItemDto;
 import org.tasks.myshop.service.CartService;
 import org.tasks.myshop.service.MyshopService;
 import org.tasks.myshop.service.mapper.ItemMapper;
-import org.tasks.myshop.service.mapper.ItemMapperImplForTest;
 import org.tasks.myshop.service.mapper.ItemModelMapper;
 import org.tasks.myshop.service.mapper.ItemPicsMapper;
-import org.tasks.myshop.service.mapper.ItemPicsMapperImplForTest;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -23,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {MyshopServiceImpl.class, ItemMapperImplForTest.class, ItemPicsMapperImplForTest.class})
+@SpringBootTest(classes = MyshopServiceImpl.class)
+@Import(TestMapperConfig.class)
 class MyshopServiceImplTest {
 
     @Autowired

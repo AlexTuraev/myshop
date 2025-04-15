@@ -4,14 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.tasks.myshop.config.TestMapperConfig;
 import org.tasks.myshop.dao.model.OrderEntity;
 import org.tasks.myshop.dao.repository.OrderRepository;
 import org.tasks.myshop.dto.OrderDto;
 import org.tasks.myshop.service.OrderService;
 import org.tasks.myshop.service.mapper.ItemMapper;
 import org.tasks.myshop.service.mapper.OrderMapper;
-import org.tasks.myshop.service.mapper.OrderMapperImplForTest;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,7 +20,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {OrderServiceImpl.class, OrderMapperImplForTest.class})
+@SpringBootTest(classes = OrderServiceImpl.class)
+@Import(TestMapperConfig.class)
 class OrderServiceImplTest {
 
     @Autowired

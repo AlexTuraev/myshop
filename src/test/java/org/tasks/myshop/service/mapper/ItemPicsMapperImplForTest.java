@@ -1,12 +1,10 @@
 package org.tasks.myshop.service.mapper;
 
-import org.springframework.stereotype.Component;
 import org.tasks.myshop.dao.model.ItemPicsEntity;
 import org.tasks.myshop.dto.ItemPicsDto;
 
 import java.util.Arrays;
 
-@Component
 public class ItemPicsMapperImplForTest implements ItemPicsMapper {
 
     @Override

@@ -1,15 +1,11 @@
 package org.tasks.myshop.service.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.tasks.myshop.dao.model.OrderEntity;
 import org.tasks.myshop.dto.OrderDto;
 
-@Component
 public class OrderMapperImplForTest implements OrderMapper {
 
-    @Autowired
-    private ItemMapper itemMapper;
+    private ItemMapper itemMapper = new ItemMapperImplForTest();
 
     @Override
     public OrderDto toDto(OrderEntity order) {
